@@ -1,5 +1,6 @@
 #ralg
-Efficient implementation of Shor's r-algorithm using BLAS/LAPACK
+
+Efficient implementation of Shor's r-algorithm using MKL
 
 Copyright Eugene Lykhovyd 2014-2018.
 All rights reserved.
