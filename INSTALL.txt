@@ -1,0 +1,2 @@
+modify Makefile for you own MKL paths
+then simply run make
