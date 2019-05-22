@@ -2,8 +2,12 @@
 
 Efficient implementation of Shor's r-algorithm using MKL
 
-Copyright Eugene Lykhovyd 2014-2018.
+Copyright Eugene Lykhovyd 2014-2019.
 All rights reserved.
+
+- May 21, 2019
+	* add monotonicity parameter to store the solution if
+		the descned is known to be unmonotone
 
 - Aug 21, 2018
 	* public release

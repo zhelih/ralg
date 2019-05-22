@@ -35,7 +35,7 @@ void dfree(double** m)
   free(m);
 }
 
-void ralg(const ralg_options* opt,
+double ralg(const ralg_options* opt,
           std::function<bool (const double*, double&, double*)> cb_grad_and_func,
           unsigned int DIMENSION,
           double* x0,
@@ -65,7 +65,7 @@ void ralg(const ralg_options* opt,
   if(opt->b_init <= 0)
   {
     printf("opt->b_init wrong value %e\n", opt->b_init);
-    return;
+    return 0.;
   }
   // null after init
   B = dalloc(DIMENSION);
@@ -83,7 +83,7 @@ void ralg(const ralg_options* opt,
   if(!cb_grad_and_func(xk, f_val, grad))
   {
     printf("grad failed, aborting\n");
-    return;
+    return 0.;
   }
 
   f_optimal = f_val;
@@ -138,9 +138,15 @@ void ralg(const ralg_options* opt,
       if(j > opt->stepmax)
       {
         printf("function is unbounded, done %d steps, current step %.14e\n", j, step);
-        return;
+        return 0.;
       }
     } while(1);
+
+    if(!opt->is_monotone)
+    {
+      if((is_min && f_val < f_optimal) || (!is_min && f_val > f_optimal))
+        cblas_dcopy(DIMENSION, xk, 1, res, 1);
+    }
 
     if(is_min)
       f_optimal = min(f_optimal, f_val);
@@ -192,7 +198,8 @@ void ralg(const ralg_options* opt,
       printf("stepmin reached\n");
   }
 
-  cblas_dcopy(DIMENSION, xk, 1, res, 1);
+  if(opt->is_monotone)
+    cblas_dcopy(DIMENSION, xk, 1, res, 1);
 
   time_t t_done = time(NULL);
 
@@ -206,5 +213,7 @@ void ralg(const ralg_options* opt,
   free(grad);
   free(xk);
   dfree(B);
+
+  return f_optimal;
 }
 

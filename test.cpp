@@ -38,6 +38,7 @@ int main()
           x0,
           res, RALG_MAX);
   printf("for inv 1000(x-3)^2 + y^2 -> max the answer is %.2lf %.2lf\n", res[0], res[1]);
+  opt.is_monotone = false;
   ralg(&opt,
           [](const double* x, double& f, double* grad) -> bool
           {
