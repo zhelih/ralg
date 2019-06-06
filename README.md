@@ -5,6 +5,10 @@ Efficient implementation of Shor's r-algorithm using MKL
 Copyright Eugene Lykhovyd 2014-2019.
 All rights reserved.
 
+- June 5, 2019
+	* partial implementation of cblas routines used; convenient when
+		no MKL available and speed is not a consideration
+
 - May 21, 2019
 	* add monotonicity parameter to store the solution if
 		the descned is known to be unmonotone
