@@ -88,6 +88,8 @@ double ralg(const ralg_options* opt,
 
   f_optimal = f_val;
 
+  FILE* flog = fopen("ralg.out", "w");
+
   do
   {
     iter++;
@@ -164,6 +166,12 @@ double ralg(const ralg_options* opt,
       step = step * opt->q1; //decreasing
 
     cblas_daxpy(DIMENSION, -1., grad, 1, tmp, 1);
+    // dilation direction here is tmp
+    for(unsigned int i = 0; i < DIMENSION; ++i)
+    {
+      fprintf(flog, "%.10lf ", tmp[i]);
+    }
+    fprintf(flog, "\n");
     cblas_dgemv(CblasRowMajor, CblasTrans, DIMENSION, DIMENSION, ((is_min)?(-1.):(1)), B[0], DIMENSION, tmp, 1, 0., tmp2, 1);
     d_var = cblas_dnrm2(DIMENSION, tmp2, 1);
     if (opt->output && (iter-1) % opt->output_iter == 0)
@@ -213,6 +221,8 @@ double ralg(const ralg_options* opt,
   free(grad);
   free(xk);
   dfree(B);
+
+  fclose(flog);
 
   return f_optimal;
 }
