@@ -10,7 +10,7 @@ lib: ralg.o
 	ar -t libralg.a
 	ranlib libralg.a
 
-ralg.o:
+ralg.o: ralg.cpp
 	g++ -c -Wall ralg.cpp -O2 -I"$(MKLINCLUDE)" -std=c++11
 
 ralg_ez.o:

@@ -88,7 +88,8 @@ double ralg(const ralg_options* opt,
 
   f_optimal = f_val;
 
-  FILE* flog = fopen("ralg.out", "w");
+  FILE* flog = fopen("ralg.out", "a");
+  fprintf(flog, "-\n");
 
   do
   {
