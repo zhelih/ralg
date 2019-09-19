@@ -35,6 +35,26 @@ void dfree(double** m)
   free(m);
 }
 
+void print_vec(FILE* f, unsigned int d, double* vec, const char* name)
+{
+  fprintf(f, "%s = [", name);
+  for(unsigned int i = 0; i < d; ++i)
+    fprintf(f, "%.4lf; ", vec[i]);
+  fprintf(f, "]\n");
+}
+
+void print_mat(FILE* f, unsigned int d, double** mat, const char* name)
+{
+  fprintf(f, "%s = [", name);
+  for(unsigned int i = 0; i < d; ++i)
+  {
+    for(unsigned int j = 0; j < d; ++j)
+      fprintf(f, "%.4lf ", mat[i][j]);
+    fprintf(f, "; ");
+  }
+  fprintf(f, "]\n");
+}
+
 double ralg(const ralg_options* opt,
           std::function<bool (const double*, double&, double*)> cb_grad_and_func,
           unsigned int DIMENSION,
@@ -88,8 +108,7 @@ double ralg(const ralg_options* opt,
 
   f_optimal = f_val;
 
-  FILE* flog = fopen("ralg.out", "a");
-  fprintf(flog, "-\n");
+  FILE* flog = fopen("ralg.out", "w");
 
   do
   {
@@ -163,16 +182,14 @@ double ralg(const ralg_options* opt,
       break;
     }
 
+    print_vec(flog, DIMENSION, xk, "xo");
     if(j == 1)
       step = step * opt->q1; //decreasing
+    print_vec(flog, DIMENSION, grad, "go");
 
     cblas_daxpy(DIMENSION, -1., grad, 1, tmp, 1);
     // dilation direction here is tmp
-    for(unsigned int i = 0; i < DIMENSION; ++i)
-    {
-      fprintf(flog, "%.10lf ", tmp[i]);
-    }
-    fprintf(flog, "\n");
+    print_vec(flog, DIMENSION, tmp, "do");
     cblas_dgemv(CblasRowMajor, CblasTrans, DIMENSION, DIMENSION, ((is_min)?(-1.):(1)), B[0], DIMENSION, tmp, 1, 0., tmp2, 1);
     d_var = cblas_dnrm2(DIMENSION, tmp2, 1);
     if (opt->output && (iter-1) % opt->output_iter == 0)
