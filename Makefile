@@ -10,14 +10,20 @@ lib: ralg.o
 	ar -t libralg.a
 	ranlib libralg.a
 
+lib_ez: ralg_ez.o mkl_cblas.o
+	rm libralg_ez.a || true
+	ar -cvq libralg_ez.a mkl_cblas.o ralg_ez.o
+	ar -t libralg_ez.a
+	ranlib libralg_ez.a
+
 ralg.o: ralg.cpp ralg.h
-	g++ -c -Wall ralg.cpp -O2 -I"$(MKLINCLUDE)" -std=c++11
+	g++ -c -Wall ralg.cpp -O2 -I"$(MKLINCLUDE)" -std=c++11 -fPIC
 
 ralg_ez.o: ralg.cpp ralg.h
-	g++ -c -Wall ralg.cpp -I"cblas/" -std=c++11 -o ralg_ez.o
+	g++ -c -Wall ralg.cpp -I"cblas/" -std=c++11 -o ralg_ez.o -fPIC
 
-cblas.o: cblas/*
-	gcc -c -Wall cblas/mkl_cblas.c
+mkl_cblas.o: cblas/*
+	gcc -c -Wall cblas/mkl_cblas.c -fPIC
 
 test: lib test.cpp
 	g++ -o test -Wall test.cpp -std=c++11 -O2 -L$(MKLLIB) -L/home/lykhovyd/intel/lib/intel64 -I$(MKLINCLUDE) -I$(MKLINCLUDE)/intel64/lp64 -lmkl_blas95_lp64 -Wl,--start-group ./libralg.a $(MKLLIB)/libmkl_intel_lp64.a $(MKLLIB)/libmkl_intel_thread.a $(MKLLIB)/libmkl_core.a -Wl,--end-group -liomp5 -lpthread -lm -ldl
