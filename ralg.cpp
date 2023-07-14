@@ -1,6 +1,6 @@
 #include "ralg.h"
 #include <cfloat>
-#include <mkl_cblas.h>
+#include <cblas.h>
 #include <malloc.h>
 #include <cstdio>
 #include <ctime>

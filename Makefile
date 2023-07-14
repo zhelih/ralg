@@ -1,10 +1,9 @@
-MKLROOT=$(HOME)/intel/mkl
-MKLLIB=$(MKLROOT)/lib/intel64_lin
-MKLINCLUDE=$(MKLROOT)/include
+#BLAS=mkl-static-lp64-iomp
+#BLAS=openblas
+BLAS=blas
 
-MKL=mkl-static-lp64-iomp
-MKL_CFLAGS=$(shell pkg-config --cflags $(MKL))
-MKL_LIBS=$(shell pkg-config --libs $(MKL))
+BLAS_CFLAGS=$(shell pkg-config --cflags $(BLAS))
+BLAS_LIBS=$(shell pkg-config --libs $(BLAS))
 
 CXXFLAGS=-Wall -Wextra -std=c++11 -fPIC -g -O2
 CXX:=g++ $(CXXFLAGS)
@@ -21,25 +20,25 @@ lib_ez: libralg_ez.a
 	ranlib $@
 
 libralg.a: ralg.o
-libralg_ez.a: ralg_ez.o mkl_cblas.o
+libralg_ez.a: ralg_ez.o cblas.o
 
 ralg.o: ralg.cpp ralg.h
-	$(CXX) -o $@ $(MKL_CFLAGS) -c $<
+	$(CXX) -o $@ $(BLAS_CFLAGS) -c $<
 
 ralg_ez.o: ralg.cpp ralg.h
 	$(CXX) -o $@ -I"cblas/" -c $<
 
-mkl_cblas.o: cblas/*
-	gcc -c -Wall cblas/mkl_cblas.c -fPIC
+cblas.o: cblas/*
+	gcc -c -Wall cblas/cblas.c -fPIC
 
 python/pyralg.so: python/pyralg.cpp libralg_ez.a
 	$(CXX) -o $@ -shared -I/usr/include/python2.7 -I./ -lpython2.7 -shared -Xlinker -z -Xlinker defs $^
 
-test: libralg.a test.cpp
-	$(CXX) -o $@ test.cpp ./libralg.a $(MKL_LIBS)
+test: test.cpp libralg.a
+	$(CXX) -o $@ $^ $(BLAS_LIBS)
 
-test_ez: test.cpp ralg_ez.o mkl_cblas.o
-	$(CXX) -o $@ -I"cblas/" $^
+test_ez: test.cpp ralg_ez.o cblas.o
+	$(CXX) -o $@ $^
 
 clean:
 	rm -f *.o *.a python/*.so
