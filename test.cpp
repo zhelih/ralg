@@ -3,7 +3,15 @@
 // no actions needed with Visual C++ which support C++11 standart
 
 #include <cstdio>
+#include <cmath>
 #include "ralg.h"
+
+inline double sign(double x)
+{
+  if (x < 0) return -1.;
+  if (x > 0) return 1.;
+  return 0.;
+}
 
 int main()
 {
@@ -50,7 +58,21 @@ int main()
           2,
           x0,
           res,
-          false); // min = false
+          RALG_MIN);
   printf("for -(x-3)^2 - 0.001y^2 -> max the answer is %.2lf %.2lf\n", res[0], res[1]);
+  ralg(&opt,
+          [](const double* x, double& f, double* grad) -> bool
+          {
+            f = fabs(x[0]-3) + 100.*fabs(x[0]+2) + 0.001*fabs(x[1]);
+            grad[0] = sign(x[0]-3) + 100.*sign(x[0]+2);
+            grad[1] = 0.001*sign(x[1]);
+            return true;
+          },
+          2,
+          x0,
+          res,
+          RALG_MIN);
+  printf("for |x-3| + 100|x+2| + 0.001|y| -> min the answer is %.2lf %.2lf\n", res[0], res[1]);
+
   return 0;
 }
