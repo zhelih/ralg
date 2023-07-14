@@ -16,17 +16,16 @@ struct ralg_options
     double q2; // 1.2
     unsigned int nh; // 3
     double alpha; // 2
-    double renew_limit; // DBL_EPSILON
     unsigned int itermax; // 10000
     unsigned int stepmax; // 500
     double stepmin; // 1.e-15
     double b_mult_grad_min; // 1.e-20
     double reset; // 1.e-18
     double initstep; // 1.
-    bool output;
-    unsigned int output_iter;
-    double b_init;
-    bool is_monotone;
+    bool output; // true
+    unsigned int output_iter; // 500
+    double b_init; // 1.
+    bool is_monotone; // true
 };
 
 const ralg_options defaultOptions = {
@@ -38,8 +37,6 @@ const ralg_options defaultOptions = {
   3,
     // alpha
   2.,
-  // renew_limit
-  2*DBL_EPSILON, // use with caution
     // itermax
   10000,
     // stepmax
