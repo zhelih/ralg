@@ -2,8 +2,12 @@
 
 Efficient implementation of Shor's r-algorithm using MKL
 
-Copyright Eugene Lykhovyd 2014-2019.
+Copyright Eugene Lykhovyd 2014-2023.
 All rights reserved.
+
+- July 2019
+  * OCaml stubs
+  * Makefile, code refactoring
 
 - June 5, 2019
 	* partial implementation of cblas routines used; convenient when
