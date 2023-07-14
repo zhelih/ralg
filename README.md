@@ -2,6 +2,9 @@
 
 Efficient implementation of Shor's r-algorithm using MKL
 
+During build define BLAS to the name of your blas library, e.g. `make BLAS=blas` or `make BLAS=openblas` or
+`make BLAS=mkl-static-lp64-iomp`, etc. By default (BLAS undefined) builtin naive implementation will be used.
+
 Copyright Eugene Lykhovyd 2014-2023.
 All rights reserved.
 
