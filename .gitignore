@@ -31,4 +31,4 @@
 *.out
 *.app
 test
-test_cblas
+test_ez
