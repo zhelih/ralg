@@ -58,7 +58,7 @@ double ralg(const ralg_options* opt,
   double f_optimal;
 
   unsigned int nr_matrix_reset = 0;
-  printf("Running ralg_blas v2 with matrix renewal, copyright Eugene Lykhovyd, 2014-2018.\n");
+  printf("Running ralg_blas v2 with matrix renewal, copyright Eugene Lykhovyd, 2014-2023.\n");
 
   time_t t_started = time(NULL);
 
