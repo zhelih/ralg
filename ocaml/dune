@@ -4,7 +4,8 @@
   (foreign_stubs
     (language c)
     (flags -g -xc++)
-    (names ralg_stubs)))
+    (names ralg_stubs))
+  (c_library_flags -L. -lstdc++ -lralg))
 
 (test
   (name test)
