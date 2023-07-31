@@ -36,8 +36,13 @@ cblas.o: cblas/*
 python/pyralg.so: python/pyralg.cpp libralg.a
 	$(CXX) -o $@ -shared -I/usr/include/python2.7 -I./ -lpython2.7 -shared -Xlinker -z -Xlinker defs $^
 
+.PHONY: ocaml
+ocaml: lib
+	dune build
+
 test: test.cpp libralg.a
 	$(CXX) -o $@ $^ $(BLAS_LIBS)
 
 clean:
 	rm -f *.o *.a python/*.so
+	-dune clean

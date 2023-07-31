@@ -1,0 +1,7 @@
+(library
+  (name ralg)
+  (modules ralg)
+  (foreign_stubs
+    (language c)
+    (flags -g -xc++)
+    (names ralg_stubs)))
