@@ -5,3 +5,8 @@
     (language c)
     (flags -g -xc++)
     (names ralg_stubs)))
+
+(test
+  (name test)
+  (modules test)
+  (libraries ralg))
