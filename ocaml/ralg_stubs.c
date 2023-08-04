@@ -66,7 +66,6 @@ ML_EXTERN ml_ralg(value v_options, value v_cb, value v_vector)
   CAMLparam3(v_options, v_cb, v_vector);
   CAMLlocal2(v_res, v_r);
   const size_t dim = caml_array_length(v_vector);
-  v_res = caml_alloc_float_array(dim);
   struct ralg_options options = ralg_options_of_val(v_options);
 
   auto cb = [&v_cb,dim](const double* cur, double& f, double* grad)
@@ -85,7 +84,12 @@ ML_EXTERN ml_ralg(value v_options, value v_cb, value v_vector)
     CAMLreturnT(bool,valid);
   };
 
-  double f = ralg(&options, cb, dim, &Double_flat_field(v_vector,0), &Double_flat_field(v_res,0));
+  double* res = (double*)malloc(dim * sizeof(double));
+  /* FIXME v_vector not 100% safe */
+  double f = ralg(&options, cb, dim, &Double_flat_field(v_vector,0), res);
+  v_res = caml_alloc_float_array(dim);
+  memcpy(&Double_flat_field(v_res,0), res, dim * sizeof(double));
+  free(res); res = NULL;
   v_r = caml_alloc_tuple(2);
   Store_field(v_r, 0, caml_copy_double(f));
   Store_field(v_r, 1, v_res);
