@@ -11,7 +11,7 @@ ralg_options = {
     "stepmax": 500,
     "stepmin": 1.e-12,
     "b_mult_grad_min": 1.e-12,
-    "reset": 1.e-12,
+    "reset": 1.e-12, # EL: on python works better with 1.e-10 ???
     "initstep": 1.,
     "output": True,
     "output_iter": 1,

@@ -32,3 +32,5 @@
 *.app
 test
 _build
+
+research/__pycache__

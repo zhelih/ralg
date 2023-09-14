@@ -85,8 +85,7 @@ def ralg(opt, cb_grad_and_func, x0, is_min):
         if (it-1) % opt['output_iter'] == 0:
             print(f"iter = {it}, step = {step}, func = {f_val}, norm = {d_var}, diff = {step_diff}")
 
-        # TODO matrix reset
-        if d_var < 1.e-10:
+        if d_var <= opt['reset']:
             print('MATRIX RESET')
             nr_matrix_reset += 1
             B = np.eye(dim)
