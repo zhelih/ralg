@@ -1,4 +1,6 @@
-#ralg
+# ralg
+
+[![Build](https://github.com/zhelih/ralg/actions/workflows/build.yml/badge.svg)](https://github.com/zhelih/ralg/actions/workflows/build.yml)
 
 Efficient implementation of Shor's r-algorithm using MKL
 
